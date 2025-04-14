@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إخفاء واستخراج النص في الصور</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- قسم الشعار -->
+        <div class="logo-section">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="شعار المشروع" class="logo">
+        </div>
+
+        <h1>إخفاء واستخراج النص في الصور</h1>
+
+        <!-- قسم إخفاء النص -->
+        <div class="section">
+            <h2>إخفاء نص في صورة</h2>
+            <form method="POST" enctype="multipart/form-data" class="form">
+                <input type="hidden" name="action" value="hide">
+                <div class="form-group">
+                    <label for="image">تحميل الصورة:</label>
+                    <input type="file" id="image" name="image" accept="image/*" required>
+                </div>
+                <div class="form-group">
+                    <label for="text">أدخل النص:</label>
+                    <textarea id="text" name="text" rows="5" placeholder="اكتب النص الذي تريد إخفاءه هنا..." required></textarea>
+                </div>
+                <button type="submit" class="btn">إخفاء النص</button>
+            </form>
+        </div>
+
+        <!-- قسم استخراج النص -->
+        <div class="section">
+            <h2>استخراج نص من صورة</h2>
+            <form method="POST" enctype="multipart/form-data" class="form">
+                <input type="hidden" name="action" value="extract">
+                <div class="form-group">
+                    <label for="image_extract">تحميل الصورة:</label>
+                    <input type="file" id="image_extract" name="image_extract" accept="image/*" required>
+                </div>
+                <button type="submit" class="btn">استخراج النص</button>
+            </form>
+        </div>
+
+        <!-- عرض الرسائل والنتائج -->
+        {% if message %}
+        <p class="message">{{ message }}</p>
+        {% endif %}
+        {% if output_file %}
+        <p class="result-link">تم إنشاء الصورة: <a href="{{ url_for('download_file', filename=output_file) }}">تحميل الصورة</a></p>
+        {% endif %}
+        {% if extracted_text %}
+        <div class="result">
+            <h3>النص المستخرج:</h3>
+            <pre>{{ extracted_text }}</pre>
+        </div>
+        {% endif %}
+
+        <!-- قسم معلومات المشروع الدراسي -->
+        <footer>
+            <p>مشروع دراسي</p>
+            <p>إعداد: حسين علي عباس</p>
+            <p>الجامعة: جامعة بابل</p>
+            <p>كلية تكنولوجيا المعلومات قسم أمنية المعلومات</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
